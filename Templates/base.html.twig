@@ -12,11 +12,13 @@
 
         {% block canonical %}<link rel="canonical" href="{{ app.request.getSchemeAndHttpHost()~app.request.getPathInfo() }}">{% endblock %}
 
-        <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-        <meta name="referrer" content="no-referrer"/>
-        <meta name="HandheldFriendly" content="true"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <link rel="manifest" href="/build/manifest.json"/>
+        {% block baseMetatags %}
+            <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+            <meta name="referrer" content="no-referrer"/>
+            <meta name="HandheldFriendly" content="true"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <link rel="manifest" href="/build/manifest.json"/>
+        {% endblock baseMetatags %}
 
         {% block metatags %}
             {% if website is defined and website.siteVerification %}<meta name="google-site-verification" content="{{ website.siteVerification }}"/>{% endif %}
@@ -29,16 +31,13 @@
             {% if edit %}
                 {{ encore_entry_link_tags('app') }}
                 {{ encore_entry_link_tags('inline') }}
+                <script defer src="{{ asset('/bundles/cms/libs/dist/main.js') }}"></script>
+                {% include '@cms/Admin/admin-styles.html.twig' %}
             {% else %}
                 {# Inline css #}
                 <style amp-custom>
                     {{ source('@public'~asset('build/app.css')) }}
                 </style>
-            {% endif %}
-
-            {% if edit %}
-                <script defer src="{{ asset('/bundles/cms/libs/dist/main.js') }}"></script>
-                {% include '@cms/Admin/admin-styles.html.twig' %}
             {% endif %}
         {% endblock %}
 
@@ -48,9 +47,11 @@
     </head>
     <body class="{% block bodyClass %}{% endblock %} {{ page is defined and page.template is defined ? 'page-'~page.template|lower : '' }} {% if edit %}page-edit{% endif %}">
 
-        {% apply inline_css_custom(source('@public'~asset('build/inline.css'))) %}
-            {% block body %}{% endblock %}
-        {% endapply %}
+        {% block body_wrapper %}
+            {% apply inline_css_custom(source('@public'~asset('build/inline.css'))) %}
+                {% block body %}{% endblock body %}
+            {% endapply %}
+        {% endblock body_wrapper %}
 
         {% block scripts %}
             {% if edit %}
