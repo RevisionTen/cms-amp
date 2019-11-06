@@ -16,10 +16,10 @@ composer req revision-ten/cms-amp
 
 #### Add the new bundles to the kernel
 
-Symfony should add the new bundles automatically to your config/bundles.php.
-If not add them manually:
+Add the bundle to your config/bundles.php **before the CmsBundle**.
 ```PHP
-RevisionTen\CMS\CmsAmpBundle::class => ['all' => true],
+RevisionTen\CMS_AMP\CmsAmpBundle::class => ['all' => true],
+RevisionTen\CMS\CmsBundle::class => ['all' => true],
 ```
 
 [packagist]: https://packagist.org/packages/revision-ten/cms

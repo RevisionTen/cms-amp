@@ -1,2 +1,22 @@
 cms:
     site_name: 'CMS AMP'
+    page_elements:
+        Section:
+            class: RevisionTen\CMS\Form\Elements\Section
+            type: 'Section'
+            template: '@cms-amp/Elements/section.html.twig'
+            icon: 'fa fa-th-large'
+            children:
+                - 'Row'
+        Carousel:
+            class: RevisionTen\CMS_AMP\Form\Elements\Carousel
+            template: '@cms-amp/Elements/carousel.html.twig'
+            public: true
+            icon: 'fa fa-object-group'
+            children:
+                - 'all'
+        Image:
+            class: RevisionTen\CMS_AMP\Form\Elements\Image
+            template: '@cms-amp/Elements/image.html.twig'
+            public: true
+            icon: 'fa fa-image'

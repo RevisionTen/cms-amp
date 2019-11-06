@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="{{ page.language }}" amp>
+    <head>
+        <meta charset="utf-8">
+        <script async src="https://cdn.ampproject.org/v0.js"></script>
+        {% block ampScripts %}
+            <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
+            <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
+        {% endblock %}
+
+        <title>{% block title %}{{ page.title }} | {{ website.title }}{% endblock %}</title>
+
+        {% block canonical %}<link rel="canonical" href="{{ app.request.getSchemeAndHttpHost()~app.request.getPathInfo() }}">{% endblock %}
+
+        <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+        <meta name="referrer" content="no-referrer"/>
+        <meta name="HandheldFriendly" content="true"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <link rel="manifest" href="/build/manifest.json"/>
+
+        {% block metatags %}
+            {% if website is defined and website.siteVerification %}<meta name="google-site-verification" content="{{ website.siteVerification }}"/>{% endif %}
+            {% if page.robots %}<meta name="robots" content="{{ page.robots|join(', ') }}"/>{% endif %}
+            {% if page.description %}<meta name="description" content="{{ page.description }}"/>{% endif %}
+            {% if page.meta.image is defined and page.meta.image %}<meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ page.meta.image }}"/>{% endif %}
+        {% endblock %}
+
+        {% block styles %}
+            {% if edit %}
+                {{ encore_entry_link_tags('app') }}
+                {{ encore_entry_link_tags('inline') }}
+            {% else %}
+                {# Inline css #}
+                <style amp-custom>
+                    {{ source('@public'~asset('build/app.css')) }}
+                </style>
+            {% endif %}
+
+            {% if edit %}
+                <script defer src="{{ asset('/bundles/cms/libs/dist/main.js') }}"></script>
+                {% include '@cms/Admin/admin-styles.html.twig' %}
+            {% endif %}
+        {% endblock %}
+
+        {% block schemaOrgMarkup %}{% endblock schemaOrgMarkup %}
+
+        {% block ampBoilerplate %}<style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>{% endblock ampBoilerplate %}
+    </head>
+    <body class="{% block bodyClass %}{% endblock %} {{ page is defined and page.template is defined ? 'page-'~page.template|lower : '' }} {% if edit %}page-edit{% endif %}">
+
+        {% apply inline_css_custom(source('@public'~asset('build/inline.css'))) %}
+            {% block body %}{% endblock %}
+        {% endapply %}
+
+        {% block scripts %}
+            {% if edit %}
+                <script src="{{ asset('/bundles/cms/example-template-files/jquery.min.js') }}"></script>
+                {% include '@cms/Admin/admin-scripts.html.twig' %}
+            {% endif %}
+        {% endblock %}
+    </body>
+</html>

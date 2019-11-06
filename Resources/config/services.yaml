@@ -1,0 +1,12 @@
+services:
+    # Twig
+    RevisionTen\CMS_AMP\Twig\CmsAmpExtension:
+        autowire: true
+        public: true
+        tags: [twig.extension]
+        arguments:
+            $project_dir: '%kernel.project_dir%'
+    RevisionTen\CMS_AMP\Twig\CssInlinerExtension:
+        autowire: true
+        public: true
+        tags: [twig.extension]

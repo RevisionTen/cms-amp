@@ -31,5 +31,7 @@ class CmsAmpExtension extends Extension implements PrependExtensionInterface
 
         // Load default cms amp config.
         $loader->load('cms.yaml');
+        $loader->load('services.yaml');
+        $loader->load('config.yaml');
     }
 }
