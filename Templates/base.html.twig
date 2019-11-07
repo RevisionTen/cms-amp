@@ -48,7 +48,7 @@
     <body class="{% block bodyClass %}{% endblock %} {{ page is defined and page.template is defined ? 'page-'~page.template|lower : '' }} {% if edit %}page-edit{% endif %}">
 
         {% block body_wrapper %}
-            {% apply inline_css_custom(source('@public'~asset('build/inline.css'))) %}
+            {% apply cms_amp_css_inline(source('@public'~asset('build/inline.css'))) %}
                 {% block body %}{% endblock body %}
             {% endapply %}
         {% endblock body_wrapper %}

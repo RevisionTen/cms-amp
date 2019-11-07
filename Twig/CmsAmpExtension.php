@@ -10,12 +10,12 @@ use Twig\TwigFunction;
 
 class CmsAmpExtension extends AbstractExtension
 {
-    /** @var string */
-    private $project_dir;
+    /** @var array */
+    private $cms_amp_config;
 
-    public function __construct(string $project_dir)
+    public function __construct(array $cms_amp_config)
     {
-        $this->project_dir = $project_dir;
+        $this->cms_amp_config = $cms_amp_config;
     }
 
     public function getFilters(): array
@@ -42,8 +42,7 @@ class CmsAmpExtension extends AbstractExtension
             return '';
         }
 
-        // Todo: Make path configurable.
-        $svgPath = $this->project_dir.'/assets/fontawesome/'.$icon.'.svg';
+        $svgPath = $this->cms_amp_config['icon_path'].'/'.$icon.'.svg';
 
         if (file_exists($svgPath)) {
             return file_get_contents($svgPath);

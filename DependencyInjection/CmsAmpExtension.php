@@ -18,6 +18,10 @@ class CmsAmpExtension extends Extension implements PrependExtensionInterface
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
+        $configs = array_reverse($configs);
+        $config = array_merge(...$configs);
+
+        $container->setParameter('cms_amp', $config);
     }
 
     /**
@@ -31,6 +35,7 @@ class CmsAmpExtension extends Extension implements PrependExtensionInterface
 
         // Load default cms amp config.
         $loader->load('cms.yaml');
+        $loader->load('cms_amp.yaml');
         $loader->load('services.yaml');
         $loader->load('config.yaml');
     }

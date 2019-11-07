@@ -5,7 +5,7 @@ services:
         public: true
         tags: [twig.extension]
         arguments:
-            $project_dir: '%kernel.project_dir%'
+            $cms_amp_config: '%cms_amp%'
     RevisionTen\CMS_AMP\Twig\CssInlinerExtension:
         autowire: true
         public: true
