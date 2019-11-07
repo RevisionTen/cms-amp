@@ -1,6 +1,13 @@
 # Elements.
 Carousel: "Karussell"
 
+# General.
+amp:
+    form:
+        text:
+            success: "Ihre Nachricht wurde verschickt!"
+            error: "Ihre Nachricht konnte nicht zugestellt werden"
+
 # Carousel.
 carousel:
     label:

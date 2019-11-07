@@ -1,0 +1,51 @@
+
+{%- block form_start -%}
+    {%- do form.setMethodRendered() -%}
+    {% set method = method|upper %}
+    {%- if method in ["GET", "POST"] -%}
+        {% set form_method = method %}
+    {%- else -%}
+        {% set form_method = "POST" %}
+    {%- endif -%}
+
+    {% set formUuid = app.request.attributes is defined and app.request.attributes.get('formUuid') ? app.request.attributes.get('formUuid') : false %}
+    <form
+            {% if name != '' %} name="{{ name }}"{% endif %}
+            method="{{ form_method|lower }}"
+            {{ block('attributes') }}
+            {% if multipart %} enctype="multipart/form-data"{% endif %}
+            {% if formUuid %}
+                {% if action != '' %} action-xhr="{{ path('cms_amp_form_submit', {formUuid: formUuid}) }}"{% endif %}
+                target="_top"
+            {% else %}
+                {% if action != '' %} action="{{ action }}"{% endif %}
+            {% endif %}
+    >
+        {% if formUuid %}
+            <div submit-success>
+                <template type="amp-mustache">
+                    <div class="alert alert-success">
+                        {% verbatim %}{{ message }}{% endverbatim %}
+                    </div>
+                </template>
+            </div>
+            <div submit-error>
+                <template type="amp-mustache">
+                    <div class="alert alert-danger">
+                        {% verbatim %}{{ message }}{% endverbatim %}
+                    </div>
+                </template>
+            </div>
+        {% endif %}
+
+    {%- if form_method != method -%}
+        <input type="hidden" name="_method" value="{{ method }}" />
+    {%- endif -%}
+{%- endblock form_start -%}
+
+{%- block form_end -%}
+    {%- if not render_rest is defined or render_rest -%}
+        {{ form_rest(form) }}
+    {%- endif -%}
+</form>
+{%- endblock form_end -%}

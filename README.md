@@ -22,6 +22,15 @@ RevisionTen\CMS_AMP\CmsAmpBundle::class => ['all' => true],
 RevisionTen\CMS\CmsBundle::class => ['all' => true],
 ```
 
+#### Add routes
+
+Add the routes to your /config/routes.yaml:
+```YAML
+cmsampbundle:
+    resource: "@CmsAmpBundle/Resources/config/routes.yaml"
+    prefix:   /
+```
+
 [packagist]: https://packagist.org/packages/revision-ten/cms
 [composer]: http://getcomposer.org/
 
