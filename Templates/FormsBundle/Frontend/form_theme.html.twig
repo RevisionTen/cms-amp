@@ -31,9 +31,18 @@
             </div>
             <div submit-error>
                 <template type="amp-mustache">
-                    <div class="alert alert-danger">
-                        {% verbatim %}{{ message }}{% endverbatim %}
-                    </div>
+                    {% verbatim %}
+                    {{#verifyErrors}}
+                        <div class="alert alert-danger">
+                            {{ label }}: {{ message }}
+                        </div>
+                    {{/verifyErrors}}
+                    {{^verifyErrors}}
+                        <div class="alert alert-danger">
+                            {{ baseMessage }}
+                        </div>
+                    {{/verifyErrors}}
+                    {% endverbatim %}
                 </template>
             </div>
         {% endif %}
