@@ -2,11 +2,18 @@
 <html lang="{{ page.language }}" amp>
     <head>
         <meta charset="utf-8">
-        <script async src="https://cdn.ampproject.org/v0.js"></script>
+        {% block ampBaseScript %}
+            {% if edit %}
+                <!-- Use a modded AMP script because the original doesnt play nice with dynamically added elements -->
+                <script async src="{{ asset('bundles/cmsamp/js/v0-modded.js') }}"></script>
+            {% else %}
+                <script async src="https://cdn.ampproject.org/v0.js"></script>
+            {% endif %}
+        {% endblock ampBaseScript %}
         {% block ampScripts %}
             <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
             <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
-        {% endblock %}
+        {% endblock ampScripts %}
 
         <title>{% block title %}{{ page.title }} | {{ website.title }}{% endblock %}</title>
 

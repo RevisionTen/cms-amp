@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RevisionTen\CMS_AMP\Form\Elements;
 
 use RevisionTen\CMS\Form\Elements\Element;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class Carousel extends Element
@@ -15,6 +16,15 @@ class Carousel extends Element
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
+
+        $builder->add('height', NumberType::class, [
+            'label' => 'carousel.label.height',
+            'help' => 'carousel.help.height',
+            'attr' => [
+                'placeholder' => 'carousel.placeholder.height',
+            ],
+            'scale' => 0,
+        ]);
     }
 
     /**

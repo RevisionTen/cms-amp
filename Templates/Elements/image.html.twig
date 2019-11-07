@@ -11,6 +11,11 @@
             {% set fileWidth = 500 %}
             {% set fileHeight = 500 %}
         {% endif %}
+
+        {% if carouselHeight is defined and carouselHeight %}
+            {% set height = fileWidth / (100 / carouselHeight) %}
+        {% endif %}
+
         {% set width = element.data.settings.width ?? null %}
         {% set height = element.data.settings.height ?? null %}
         {% if (width and height is null) %}
@@ -25,11 +30,11 @@
             {% set height = fileHeight %}
         {% endif %}
 
-        {% set src05x = web_image(filePath).cropResize(width * 0.5, height * 0.5) %}
-        {% set src1x = web_image(filePath).cropResize(width, height) %}
-        {% set src2x = web_image(filePath).cropResize(width * 2, height * 2) %}
-        {% set src3x = web_image(filePath).cropResize(width * 3, height * 3) %}
-        {% set src4x = web_image(filePath).cropResize(width * 4, height * 4) %}
+        {% set src05x = web_image(filePath).zoomCrop(width * 0.5, height * 0.5) %}
+        {% set src1x = web_image(filePath).zoomCrop(width, height) %}
+        {% set src2x = web_image(filePath).zoomCrop(width * 2, height * 2) %}
+        {% set src3x = web_image(filePath).zoomCrop(width * 3, height * 3) %}
+        {% set src4x = web_image(filePath).zoomCrop(width * 4, height * 4) %}
 
         <amp-img
             width="{{ width }}"

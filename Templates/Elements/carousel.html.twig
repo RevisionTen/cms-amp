@@ -1,16 +1,22 @@
-<div {{ editorAttr(element, edit, 'bg-warning') }}>
+{% set carouselHeight = element.data.height ?? 50 %}
+<div {{ editorAttr(element, edit, 'bg-warning') }}
+        class="{{ elementClasses(element) }}">
     <amp-carousel
-            width="100" height="100"
+            width="100" height="{{ carouselHeight }}"
             layout="responsive"
             type="slides"
 
-            {{ editorAttr(element, edit, 'bg-warning') }}
-            class="{{ elementClasses(element) }}"
     >
         {% if element.elements is defined and element.elements|length > 0 %}
             {% for element in element.elements %}
                 {% include config.page_elements[element.elementName].template %}
             {% endfor %}
+        {% elseif edit %}
+            <div class="p-5 bg-light d-flex justify-content-center align-items-center">
+                <h3 class="text-center m-0">{{ element.elementName|trans }}</h3>
+            </div>
         {% endif %}
     </amp-carousel>
+
 </div>
+{% set carouselHeight = false %}

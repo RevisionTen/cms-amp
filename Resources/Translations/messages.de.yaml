@@ -1,0 +1,11 @@
+# Elements.
+Carousel: "Karussell"
+
+# Carousel.
+carousel:
+    label:
+        height: "Höhe"
+    placeholder:
+        height: "50"
+    help:
+        height: "Höhe des Karussell in Prozent"
