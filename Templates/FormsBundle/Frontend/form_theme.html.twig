@@ -1,3 +1,4 @@
+{% extends "bootstrap_4_layout.html.twig" %}
 
 {%- block form_start -%}
     {%- do form.setMethodRendered() -%}
@@ -15,7 +16,9 @@
             {{ block('attributes') }}
             {% if multipart %} enctype="multipart/form-data"{% endif %}
             {% if formUuid %}
-                {% if action != '' %} action-xhr="{{ path('cms_amp_form_submit', {formUuid: formUuid}) }}"{% endif %}
+                action-xhr="{{ path('cms_amp_form_submit', {formUuid: formUuid}) }}"
+                verify-xhr="{{ path('cms_amp_form_verify', {formUuid: formUuid}) }}"
+                custom-validation-reporting="interact-and-submit"
                 target="_top"
             {% else %}
                 {% if action != '' %} action="{{ action }}"{% endif %}
@@ -58,3 +61,8 @@
     {%- endif -%}
 </form>
 {%- endblock form_end -%}
+
+{% block form_help %}
+    {{- parent() -}}
+    <span visible-when-invalid="customError" validation-for="{{ id }}"></span>
+{% endblock form_help %}

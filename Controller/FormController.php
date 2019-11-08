@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace RevisionTen\CMS_AMP\Controller;
 
+use Exception;
 use RevisionTen\Forms\Services\FormService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,20 +22,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class FormController extends AbstractController
 {
     /**
-     *
-     * @Route("/submit/{formUuid}", name="cms_amp_form_submit")
-     *
-     * @param Request $request
-     * @param FormService $formService
      * @param TranslatorInterface $translator
-     * @param string $formUuid
+     * @param array $handledRequest
      *
      * @return JsonResponse
      */
-    public function submit(Request $request, FormService $formService, TranslatorInterface $translator, string $formUuid): JsonResponse
+    private function getAmpFormResponse(TranslatorInterface $translator, array $handledRequest): JsonResponse
     {
-        $handledRequest = $formService->handleRequest($request, $formUuid, []);
-
         /** @var FormInterface $form */
         $form = $handledRequest['form'];
 
@@ -59,9 +52,10 @@ class FormController extends AbstractController
             $formName = $form->getName();
             $errors[] = [
                 'message' => $error->getMessage(),
-                'full_name' => $name ? $formName.'['.$name.']' : null,
-                'name' => $name,
-                'label' => $options && !empty($options['label']) ? $options['label'] : null,
+                'name' => $name ? $formName.'['.$name.']' : null,
+                #'full_name' => $name ? $formName.'['.$name.']' : null,
+                #'name' => $name,
+                #'label' => $options && !empty($options['label']) ? $options['label'] : null,
             ];
         }
 
@@ -69,5 +63,43 @@ class FormController extends AbstractController
             'verifyErrors' => $errors,
             'baseMessage' => $message && $message['message'] ? $message['message'] : $translator->trans('amp.form.text.error'),
         ], 500);
+    }
+
+    /**
+     *
+     * @Route("/verify/{formUuid}", name="cms_amp_form_verify")
+     *
+     * @param Request $request
+     * @param FormService $formService
+     * @param TranslatorInterface $translator
+     * @param string $formUuid
+     *
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function verify(Request $request, FormService $formService, TranslatorInterface $translator, string $formUuid): JsonResponse
+    {
+        $handledRequest = $formService->handleRequest($request, $formUuid, [], false);
+
+        return $this->getAmpFormResponse($translator, $handledRequest);
+    }
+
+    /**
+     *
+     * @Route("/submit/{formUuid}", name="cms_amp_form_submit")
+     *
+     * @param Request $request
+     * @param FormService $formService
+     * @param TranslatorInterface $translator
+     * @param string $formUuid
+     *
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function submit(Request $request, FormService $formService, TranslatorInterface $translator, string $formUuid): JsonResponse
+    {
+        $handledRequest = $formService->handleRequest($request, $formUuid, []);
+
+        return $this->getAmpFormResponse($translator, $handledRequest);
     }
 }
