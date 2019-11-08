@@ -1,3 +1,6 @@
 revision_ten_cms_amp_controller_form:
     resource: "@CmsAmpBundle/Controller/FormController.php"
     type: annotation
+revision_ten_cms_amp_controller_frontend:
+    resource: "@CmsAmpBundle/Controller/FrontendController.php"
+    type: annotation

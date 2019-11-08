@@ -33,6 +33,9 @@ class CmsAmpExtension extends AbstractExtension
             new TwigFunction('faIcon', [$this, 'faIcon'], [
                 'is_safe' => ['html'],
             ]),
+            new TwigFunction('ampScript', [$this, 'ampScript'], [
+                'is_safe' => ['html'],
+            ]),
         ];
     }
 
@@ -50,5 +53,14 @@ class CmsAmpExtension extends AbstractExtension
 
         // Todo: Return fallback icon.
         return 'fallback';
+    }
+
+    public function ampScript(?string $name = null, ?float $version = 0.1, ?string $type = 'element'): string
+    {
+        if (null === $name) {
+            return '';
+        }
+
+        return '<script async custom-'.$type.'="'.$name.'" src="https://cdn.ampproject.org/v0/'.$name.'-'.$version.'.js"></script>';
     }
 }

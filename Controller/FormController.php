@@ -53,9 +53,7 @@ class FormController extends AbstractController
             $errors[] = [
                 'message' => $error->getMessage(),
                 'name' => $name ? $formName.'['.$name.']' : null,
-                #'full_name' => $name ? $formName.'['.$name.']' : null,
-                #'name' => $name,
-                #'label' => $options && !empty($options['label']) ? $options['label'] : null,
+                'label' => $options && !empty($options['label']) ? $options['label'] : null,
             ];
         }
 

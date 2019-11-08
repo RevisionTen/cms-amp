@@ -1,9 +1,9 @@
-<!doctype html>
-<html lang="{{ page.language }}" amp>
+{% set isAmp = app.request.pathInfo|slice(0, 5) == '/amp/' %}<!doctype html>
+<html lang="{{ page.language }}" {{ isAmp ? 'amp' : '' }}>
     <head>
         <meta charset="utf-8">
         {% block ampBaseScript %}
-            {% if edit %}
+            {% if edit or isAmp == false%}
                 <!-- Use a modded AMP script because the original doesnt play nice with dynamically added elements -->
                 <script async src="{{ asset('bundles/cmsamp/js/v0-modded.js') }}"></script>
             {% else %}
@@ -11,15 +11,28 @@
             {% endif %}
         {% endblock ampBaseScript %}
         {% block ampScripts %}
-            <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
-            <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
-            <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
-            <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+            {{ ampScript('amp-sidebar') }}
+            {{ ampScript('amp-carousel') }}
+            {{ ampScript('amp-form') }}
+            {{ ampScript('amp-mustache', 0.2, 'template') }}
         {% endblock ampScripts %}
 
         <title>{% block title %}{{ page.title }} | {{ website.title }}{% endblock %}</title>
 
-        {% block canonical %}<link rel="canonical" href="{{ app.request.getSchemeAndHttpHost()~app.request.getPathInfo() }}">{% endblock %}
+        {% block canonical %}
+            {% if alias.path == '/' %}
+                {% set canonical = url('cms_page_frontpage') %}
+                {% set amphtml = url('cms_amp_page_frontpage') %}
+            {% else %}
+                {% set canonical = url('cms_page_alias', {path: alias.path|trim('/', 'left')}) %}
+                {% set amphtml = url('cms_amp_page_alias', {path: alias.path|trim('/', 'left')}) %}
+            {% endif %}
+            {% if isAmp %}
+                <link rel="canonical" href="{{ canonical }}">
+            {% else %}
+                <link rel="amphtml" href="{{ amphtml }}">
+            {% endif %}
+        {% endblock %}
 
         {% block baseMetatags %}
             <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
