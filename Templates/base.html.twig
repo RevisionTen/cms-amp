@@ -3,12 +3,7 @@
     <head>
         <meta charset="utf-8">
         {% block ampBaseScript %}
-            {% if edit or isAmp == false%}
-                <!-- Use a modded AMP script because the original doesnt play nice with dynamically added elements -->
-                <script async src="{{ asset('bundles/cmsamp/js/v0-modded.js') }}"></script>
-            {% else %}
-                <script async src="https://cdn.ampproject.org/v0.js"></script>
-            {% endif %}
+            {{ ampBaseScript() }}
         {% endblock ampBaseScript %}
         {% block ampScripts %}
             {{ ampScript('amp-sidebar') }}

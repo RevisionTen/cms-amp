@@ -4,17 +4,24 @@ declare(strict_types=1);
 
 namespace RevisionTen\CMS_AMP\Twig;
 
+use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class CmsAmpExtension extends AbstractExtension
 {
+    /** @var bool */
+    private $isAmp;
+
     /** @var array */
     private $cms_amp_config;
 
-    public function __construct(array $cms_amp_config)
+    public function __construct(RequestStack $requestStack, array $cms_amp_config)
     {
+        $request = $requestStack->getMasterRequest();
+
+        $this->isAmp = $request && strpos($request->getPathInfo(), '/amp/') === 0;
         $this->cms_amp_config = $cms_amp_config;
     }
 
@@ -34,6 +41,9 @@ class CmsAmpExtension extends AbstractExtension
                 'is_safe' => ['html'],
             ]),
             new TwigFunction('ampScript', [$this, 'ampScript'], [
+                'is_safe' => ['html'],
+            ]),
+            new TwigFunction('ampBaseScript', [$this, 'ampBaseScript'], [
                 'is_safe' => ['html'],
             ]),
         ];
@@ -61,6 +71,15 @@ class CmsAmpExtension extends AbstractExtension
             return '';
         }
 
-        return '<script async custom-'.$type.'="'.$name.'" src="https://cdn.ampproject.org/v0/'.$name.'-'.$version.'.js"></script>';
+        $scriptHost = $this->isAmp ? 'https://cdn.ampproject.org/v0/' : '/bundles/cmsamp/amp-dist/rtv/010/v0/';
+
+        return '<script async custom-'.$type.'="'.$name.'" src="'.$scriptHost.$name.'-'.$version.'.js"></script>';
+    }
+
+    public function ampBaseScript(): string
+    {
+        $script = $this->isAmp ? 'https://cdn.ampproject.org/v0.js' : '/bundles/cmsamp/amp-dist/rtv/010/v0.js';
+
+        return '<script async src="'.$script.'"></script>';
     }
 }
