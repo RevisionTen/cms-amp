@@ -1,2 +1,4 @@
 cms_amp:
     icon_path: '%kernel.project_dir%/assets/icons'
+    optimizePages: false
+    optimizerCommand: 'npx amp optimize %%inputPath%% > %%outputPath%% && rm %%inputPath%%'

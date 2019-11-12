@@ -4,7 +4,15 @@ services:
         autowire: true
         autoconfigure: true
         resource: '../../Controller'
+        exclude: '../../Controller/{FrontendController.php}'
         tags: ['controller.service_arguments']
+    RevisionTen\CMS_AMP\Controller\FrontendController:
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
+        arguments:
+            $project_dir: '%kernel.project_dir%'
+            $config: '%cms_amp%'
     # Twig
     RevisionTen\CMS_AMP\Twig\CmsAmpExtension:
         autowire: true

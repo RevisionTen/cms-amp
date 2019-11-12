@@ -41,3 +41,11 @@ cmsampbundle:
 [release]: https://packagist.org/packages/revision-ten/cms-amp
 [license]: https://github.com/RevisionTen/cms-amp/blob/master/LICENSE
 [downloads]: https://packagist.org/packages/revision-ten/cms-amp
+
+
+#### Transform AMP on the server
+
+```
+npm install @ampproject/toolbox-cli --save -g
+npx amp optimize input.html > output.html
+```

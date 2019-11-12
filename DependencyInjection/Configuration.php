@@ -22,6 +22,14 @@ class Configuration implements ConfigurationInterface
                     ->info('The path to your icon folder (without trailing slash')
                     ->defaultValue('%kernel.project_dir%/assets/fontawesome')
                 ->end()
+                ->booleanNode('optimizePages')
+                    ->info('Set to true to optimize pages (results in fully cached html)')
+                    ->defaultFalse()
+                ->end()
+                ->scalarNode('optimizerCommand')
+                    ->info('The command used to optimize the html of pages')
+                    ->defaultValue('npx amp optimize %%inputPath%% > %%outputPath%% && rm %%inputPath%%')
+                ->end()
             ->end();
 
         return $treeBuilder;
