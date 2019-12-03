@@ -136,7 +136,7 @@ class FrontendController extends AbstractController
      * @param Alias $alias
      * @return Response|null
      */
-    public function getCachedHTML(Alias $alias): ?Response
+    public function getCachedHTML(?Alias $alias): ?Response
     {
         if (null === $alias) {
             return null;
