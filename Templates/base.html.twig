@@ -15,7 +15,7 @@
         <title>{% block title %}{{ page.title }} | {{ website.title }}{% endblock %}</title>
 
         {% block canonical %}
-            {% if alias.path == '/' %}
+            {% if alias is empty or alias.path == '/' %}
                 {% set canonical = url('cms_page_frontpage') %}
                 {% set amphtml = url('cms_amp_page_frontpage') %}
             {% else %}
