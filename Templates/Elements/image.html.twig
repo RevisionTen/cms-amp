@@ -41,16 +41,32 @@
             height="{{ height }}"
             title="{{ element.data.title }}"
             alt="{{ element.data.title }}"
-            src="{{ src1x }}"
+            src="{{ src1x.webp() }}"
             srcset="
-                {{ src05x }} {{ width * 0.5 }}w,
-                {{ src1x }} {{ width }}w,
-                {{ src2x }} {{ width * 2 }}w,
-                {{ src3x }} {{ width * 3 }}w,
-                {{ src4x }} {{ width * 4 }}w
+                {{ src05x.webp() }} {{ width * 0.5 }}w,
+                {{ src1x.webp() }} {{ width }}w,
+                {{ src2x.webp() }} {{ width * 2 }}w,
+                {{ src3x.webp() }} {{ width * 3 }}w,
+                {{ src4x.webp() }} {{ width * 4 }}w
             "
             layout="responsive"
         >
+            <amp-img
+                fallback
+                width="{{ width }}"
+                height="{{ height }}"
+                title="{{ element.data.title }}"
+                alt="{{ element.data.title }}"
+                src="{{ src1x }}"
+                srcset="
+                    {{ src05x }} {{ width * 0.5 }}w,
+                    {{ src1x }} {{ width }}w,
+                    {{ src2x }} {{ width * 2 }}w,
+                    {{ src3x }} {{ width * 3 }}w,
+                    {{ src4x }} {{ width * 4 }}w
+                "
+                layout="responsive"
+            >
             <noscript>
                 <img
                     width="{{ width }}"
