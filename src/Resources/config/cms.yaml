@@ -20,3 +20,8 @@ cms:
             template: 'CmsAmpBundle::Elements/image.html.twig'
             public: true
             icon: 'fa fa-image'
+        AmpIframe:
+            class: RevisionTen\CMS_AMP\Form\Elements\AmpIframe
+            template: 'CmsAmpBundle::Elements/amp-iframe.html.twig'
+            public: true
+            icon: 'fas fa-vector-square'

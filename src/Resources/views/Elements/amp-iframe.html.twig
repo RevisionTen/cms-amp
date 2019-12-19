@@ -1,0 +1,15 @@
+<div {{ editorAttr(element, edit, 'bg-warning') }} class="{{ elementClasses(element) }}">
+    <amp-iframe title="{{ element.data.title }}"
+                layout="{{ element.data.layout }}"
+                sandbox="allow-scripts allow-same-origin allow-popups"
+                frameborder="0"
+                src="{{ element.data.src }}"
+                height="{{ element.data.height }}"
+                {% if element.data.width %}
+                    width="{{ element.data.width }}"
+                {% else %}
+                    width="auto"
+                {% endif %}
+    >
+    </amp-iframe>
+</div>

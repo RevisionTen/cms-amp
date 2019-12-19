@@ -1,5 +1,6 @@
 # Elements.
 Carousel: "Carousel"
+AmpIframe: "Iframe"
 
 # General.
 amp:
@@ -16,3 +17,17 @@ carousel:
         height: "50"
     help:
         height: "Height of carousel in percent"
+
+# AmpIframe.
+ampIframe:
+    label:
+        title: "Title"
+        src: "URL"
+        layout: "Layout"
+        width: "Width"
+        height: "Height"
+    value:
+        layout:
+            responsive: "Responsive"
+            fixedHeight: "Fixed height"
+            fixed: "Fixed width and height"
