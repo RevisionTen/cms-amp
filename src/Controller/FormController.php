@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use function array_map;
 
 /**
  * Class FormController.
@@ -29,7 +30,9 @@ class FormController extends AbstractController
      */
     private function getAmpFormResponse(TranslatorInterface $translator, array $handledRequest): JsonResponse
     {
-        /** @var FormInterface $form */
+        /**
+         * @var FormInterface $form
+         */
         $form = $handledRequest['form'];
 
         $message = $handledRequest['messages'][0] ?? null;
@@ -41,30 +44,37 @@ class FormController extends AbstractController
             ], 200);
         }
 
-        $errors = [];
-        $formErrors = $form->getErrors(true, false);
-        foreach ($formErrors->getChildren() as $error) {
-            /** @var FormError $error */
-            /** @var FormInterface|null $origin */
+        // Get form errors.
+        $errors = $form->getErrors(true, false);
+        /**
+         * @var FormError[] $formErrors
+         */
+        $formErrors = $errors->getChildren();
+
+        // Build an array of AMP verifyErrors.
+        $formName = $form->getName();
+        $verifyErrors = array_map(static function(FormError $error) use ($formName) {
+            /**
+             * @var FormInterface|null $origin
+             */
             $origin = $error->getOrigin();
             $options = $origin ? $origin->getConfig()->getOptions() : null;
             $name = $origin ? $origin->getName() : null;
-            $formName = $form->getName();
-            $errors[] = [
+
+            return [
                 'message' => $error->getMessage(),
                 'name' => $name ? $formName.'['.$name.']' : null,
                 'label' => $options && !empty($options['label']) ? $options['label'] : null,
             ];
-        }
+        }, $formErrors);
 
         return new JsonResponse([
-            'verifyErrors' => $errors,
+            'verifyErrors' => $verifyErrors,
             'baseMessage' => $message && $message['message'] ? $message['message'] : $translator->trans('amp.form.text.error'),
         ], 500);
     }
 
     /**
-     *
      * @Route("/verify/{formUuid}", name="cms_amp_form_verify")
      *
      * @param Request $request
@@ -83,7 +93,6 @@ class FormController extends AbstractController
     }
 
     /**
-     *
      * @Route("/submit/{formUuid}", name="cms_amp_form_submit")
      *
      * @param Request $request

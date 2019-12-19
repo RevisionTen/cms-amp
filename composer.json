@@ -1,6 +1,6 @@
 {
     "name": "revision-ten/cms-amp",
-    "type": "library",
+    "type": "symfony-bundle",
     "description": "AMP templates and functions for revision-ten/cms",
     "keywords": ["cms", "symfony-bundle", "amp"],
     "license": "MIT",
@@ -14,6 +14,6 @@
         "revision-ten/cms": "^2.0.0"
     },
     "autoload": {
-        "psr-4": { "RevisionTen\\CMS_AMP\\": "" }
+        "psr-4": { "RevisionTen\\CMS_AMP\\": "src/" }
     }
 }

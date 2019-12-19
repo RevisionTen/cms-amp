@@ -8,15 +8,28 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use function file_exists;
+use function file_get_contents;
+use function strpos;
 
 class CmsAmpExtension extends AbstractExtension
 {
-    /** @var bool */
+    /**
+     * @var bool
+     */
     private $isAmp;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     private $cms_amp_config;
 
+    /**
+     * CmsAmpExtension constructor.
+     *
+     * @param RequestStack $requestStack
+     * @param array        $cms_amp_config
+     */
     public function __construct(RequestStack $requestStack, array $cms_amp_config)
     {
         $request = $requestStack->getMasterRequest();
@@ -25,6 +38,11 @@ class CmsAmpExtension extends AbstractExtension
         $this->cms_amp_config = $cms_amp_config;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return TwigFilter[]
+     */
     public function getFilters(): array
     {
         return [
@@ -34,6 +52,11 @@ class CmsAmpExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return TwigFunction[]
+     */
     public function getFunctions(): array
     {
         return [
@@ -49,6 +72,11 @@ class CmsAmpExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @param string|null $icon
+     *
+     * @return string
+     */
     public function faIcon(?string $icon = null): string
     {
         if (null === $icon) {
@@ -65,6 +93,13 @@ class CmsAmpExtension extends AbstractExtension
         return 'fallback';
     }
 
+    /**
+     * @param string|null $name
+     * @param float|null  $version
+     * @param string|null $type
+     *
+     * @return string
+     */
     public function ampScript(?string $name = null, ?float $version = 0.1, ?string $type = 'element'): string
     {
         if (null === $name) {
@@ -76,6 +111,9 @@ class CmsAmpExtension extends AbstractExtension
         return '<script async custom-'.$type.'="'.$name.'" src="'.$scriptHost.$name.'-'.$version.'.js"></script>';
     }
 
+    /**
+     * @return string
+     */
     public function ampBaseScript(): string
     {
         $script = $this->isAmp ? 'https://cdn.ampproject.org/v0.js' : '/bundles/cmsamp/amp-dist/rtv/010/v0.js';

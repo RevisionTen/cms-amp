@@ -1,4 +1,0 @@
-twig:
-    paths:
-        '%kernel.project_dir%/vendor/revision-ten/cms-amp/Templates': cms-amp
-        '%kernel.project_dir%/vendor/revision-ten/cms-amp/Templates/FormsBundle': forms

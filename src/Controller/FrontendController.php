@@ -24,21 +24,39 @@ use function sprintf;
  */
 class FrontendController extends AbstractController
 {
-    /** @var CacheService */
+    /**
+     * @var CacheService
+     */
     protected $cacheService;
 
-    /** @var EntityManagerInterface */
+    /**
+     * @var EntityManagerInterface
+     */
     protected $entityManager;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $project_dir;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $optimizePages;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $optimizerCommand;
 
+    /**
+     * FrontendController constructor.
+     *
+     * @param CacheService           $cacheService
+     * @param EntityManagerInterface $entityManager
+     * @param string                 $project_dir
+     * @param array                  $config
+     */
     public function __construct(CacheService $cacheService, EntityManagerInterface $entityManager, string $project_dir, array $config)
     {
         $this->cacheService = $cacheService;
@@ -60,7 +78,9 @@ class FrontendController extends AbstractController
     public function frontpageOptimized(Request $request): Response
     {
         if ($this->optimizePages) {
-            /** @var Alias|null $alias */
+            /**
+             * @var Alias|null $alias
+             */
             $alias = $this->entityManager->getRepository(Alias::class)->findMatchingAlias('/', $request->get('websiteId'), $request->getLocale());
 
             $response = $this->getCachedHTML($alias);
@@ -100,7 +120,9 @@ class FrontendController extends AbstractController
     public function aliasOptimized(Request $request, string $path): Response
     {
         if ($this->optimizePages) {
-            /** @var Alias|null $alias */
+            /**
+             * @var Alias|null $alias
+             */
             $alias = $this->entityManager->getRepository(Alias::class)->findMatchingAlias('/'.$path, $request->get('websiteId'), $request->getLocale());
 
             $response = $this->getCachedHTML($alias);

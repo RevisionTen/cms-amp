@@ -8,6 +8,11 @@ use Twig\TwigFilter;
 
 class CssInlinerExtension extends AbstractExtension
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @return TwigFilter[]
+     */
     public function getFilters(): array
     {
         return [
@@ -17,6 +22,12 @@ class CssInlinerExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @param string $body
+     * @param string ...$css
+     *
+     * @return string
+     */
     public function cms_amp_css_inline(string $body, string ...$css): string
     {
         static $cssInliner;
