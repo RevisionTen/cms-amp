@@ -23,6 +23,42 @@ use function array_map;
 class FormController extends AbstractController
 {
     /**
+     * @Route("/verify/{formUuid}", name="cms_amp_form_verify")
+     *
+     * @param Request $request
+     * @param FormService $formService
+     * @param TranslatorInterface $translator
+     * @param string $formUuid
+     *
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function verify(Request $request, FormService $formService, TranslatorInterface $translator, string $formUuid): JsonResponse
+    {
+        $handledRequest = $formService->handleRequest($request, $formUuid, [], false);
+
+        return $this->getAmpFormResponse($translator, $handledRequest);
+    }
+
+    /**
+     * @Route("/submit/{formUuid}", name="cms_amp_form_submit")
+     *
+     * @param Request $request
+     * @param FormService $formService
+     * @param TranslatorInterface $translator
+     * @param string $formUuid
+     *
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function submit(Request $request, FormService $formService, TranslatorInterface $translator, string $formUuid): JsonResponse
+    {
+        $handledRequest = $formService->handleRequest($request, $formUuid, []);
+
+        return $this->getAmpFormResponse($translator, $handledRequest);
+    }
+
+    /**
      * @param TranslatorInterface $translator
      * @param array $handledRequest
      *
@@ -72,41 +108,5 @@ class FormController extends AbstractController
             'verifyErrors' => $verifyErrors,
             'baseMessage' => $message && $message['message'] ? $message['message'] : $translator->trans('amp.form.text.error'),
         ], 500);
-    }
-
-    /**
-     * @Route("/verify/{formUuid}", name="cms_amp_form_verify")
-     *
-     * @param Request $request
-     * @param FormService $formService
-     * @param TranslatorInterface $translator
-     * @param string $formUuid
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
-    public function verify(Request $request, FormService $formService, TranslatorInterface $translator, string $formUuid): JsonResponse
-    {
-        $handledRequest = $formService->handleRequest($request, $formUuid, [], false);
-
-        return $this->getAmpFormResponse($translator, $handledRequest);
-    }
-
-    /**
-     * @Route("/submit/{formUuid}", name="cms_amp_form_submit")
-     *
-     * @param Request $request
-     * @param FormService $formService
-     * @param TranslatorInterface $translator
-     * @param string $formUuid
-     *
-     * @return JsonResponse
-     * @throws Exception
-     */
-    public function submit(Request $request, FormService $formService, TranslatorInterface $translator, string $formUuid): JsonResponse
-    {
-        $handledRequest = $formService->handleRequest($request, $formUuid, []);
-
-        return $this->getAmpFormResponse($translator, $handledRequest);
     }
 }
