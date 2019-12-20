@@ -37,6 +37,9 @@ class AmpIframe extends Element
                 'ampIframe.value.layout.fixedHeight' => 'fixed-height',
                 'ampIframe.value.layout.fixed' => 'fixed',
             ],
+            'attr' => [
+                'class' => 'custom-select',
+            ],
         ]);
 
         $builder->add('width', NumberType::class, [
