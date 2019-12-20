@@ -81,15 +81,12 @@ class FormController extends AbstractController
         }
 
         // Get form errors.
-        $errors = $form->getErrors(true, false);
-        /**
-         * @var FormError[] $formErrors
-         */
-        $formErrors = $errors->getChildren();
+        $formErrors = $form->getErrors(true, true);
 
         // Build an array of AMP verifyErrors.
         $formName = $form->getName();
-        $verifyErrors = array_map(static function(FormError $error) use ($formName) {
+        $verifyErrors = [];
+        foreach ($formErrors as $error) {
             /**
              * @var FormInterface|null $origin
              */
@@ -97,12 +94,12 @@ class FormController extends AbstractController
             $options = $origin ? $origin->getConfig()->getOptions() : null;
             $name = $origin ? $origin->getName() : null;
 
-            return [
+            $verifyErrors[] = [
                 'message' => $error->getMessage(),
                 'name' => $name ? $formName.'['.$name.']' : null,
                 'label' => $options && !empty($options['label']) ? $options['label'] : null,
             ];
-        }, $formErrors);
+        }
 
         return new JsonResponse([
             'verifyErrors' => $verifyErrors,
