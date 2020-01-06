@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RevisionTen\CMS_AMP\Form\Elements;
 
 use RevisionTen\CMS\Form\Elements\Element;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -51,6 +52,25 @@ class AmpIframe extends Element
         $builder->add('height', NumberType::class, [
             'label' => 'ampIframe.label.height',
             'html5' => true,
+        ]);
+
+        $builder->add('allowScripts', CheckboxType::class, [
+            'label' => 'ampIframe.label.allowScripts',
+            'required' => false,
+        ]);
+
+        $builder->add('allowPopups', CheckboxType::class, [
+            'label' => 'ampIframe.label.allowPopups',
+            'required' => false,
+        ]);
+
+        $builder->add('allowSameOrigin', CheckboxType::class, [
+            'label' => 'ampIframe.label.allowSameOrigin',
+            'required' => false,
+            'help' => 'ampIframe.help.allowSameOrigin',
+            'help_attr' => [
+                'class' => 'w-100',
+            ],
         ]);
     }
 

@@ -26,6 +26,11 @@ ampIframe:
         layout: "Layout"
         width: "Breite"
         height: "Höhe"
+        allowScripts: "Scripte erlauben"
+        allowPopups: "Popups erlauben"
+        allowSameOrigin: "Gleiche Quelle erlauben"
+    help:
+        allowSameOrigin: "Wählen Sie diese Option nur wenn ihre Iframe-Quelle auf eine andere Website zeigt"
     value:
         layout:
             responsive: "Responsiv"

@@ -1,7 +1,7 @@
 <div {{ editorAttr(element, edit, 'bg-warning') }} class="{{ elementClasses(element) }}">
     <amp-iframe title="{{ element.data.title }}"
                 layout="{{ element.data.layout }}"
-                sandbox="allow-scripts allow-same-origin allow-popups"
+                sandbox="{{ element.data.allowScripts ? 'allow-scripts' : '' }} {{ element.data.allowPopups ? 'allow-popups' : '' }} {{ element.data.allowSameOrigin ? 'allow-same-origin' : '' }}"
                 frameborder="0"
                 src="{{ element.data.src }}"
                 height="{{ element.data.height }}"
