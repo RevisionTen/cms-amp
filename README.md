@@ -31,6 +31,19 @@ cmsampbundle:
     prefix:   /
 ```
 
+#### AMP bind brackets
+
+Do not use the brackets syntax. Use data attributes syntax instead.
+
+```html
+Wrong:
+<button [class]="myState"></button>
+
+Correct:
+<button data-amp-bind-class="myState"></button>
+```
+
+
 [packagist]: https://packagist.org/packages/revision-ten/cms
 [composer]: http://getcomposer.org/
 
