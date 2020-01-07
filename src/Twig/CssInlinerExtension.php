@@ -35,7 +35,13 @@ class CssInlinerExtension extends AbstractExtension
             $cssInliner = new CssToInlineStyles();
         }
 
+        // Do not convert bind attributes.
+        $body = str_replace('[src]', 'data-bind-src', $body);
+
         $body =  $cssInliner->convert($body, implode("\n", $css));
+
+        // Convert back to bind attribute.
+        $body = str_replace('data-bind-src', '[src]', $body);
 
         // Remove unnecessary html tags.
         $search = ['<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">'."\n".'<html><body>', '</body></html>'];
