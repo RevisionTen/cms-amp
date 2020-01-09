@@ -1,5 +1,15 @@
 cms:
     site_name: 'CMS AMP'
+    menu_items:
+        Page:
+            class: RevisionTen\CMS\Form\Menu\Page
+            template: 'CmsAmpBundle::Menu/Items/page.html.twig'
+        Link:
+            class: RevisionTen\CMS\Form\Menu\Link
+            template: 'CmsAmpBundle::Menu/Items/link.html.twig'
+        Divider:
+            class: RevisionTen\CMS\Form\Menu\Divider
+            template: 'CmsAmpBundle::Menu/Items/divider.html.twig'
     page_elements:
         Section:
             class: RevisionTen\CMS\Form\Elements\Section
