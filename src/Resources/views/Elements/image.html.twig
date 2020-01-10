@@ -30,6 +30,12 @@
             {% set height = fileHeight %}
         {% endif %}
 
+        {% set src05xWebP = web_image(filePath).zoomCrop(width * 0.5, height * 0.5).webp() %}
+        {% set src1xWebP = web_image(filePath).zoomCrop(width, height).webp() %}
+        {% set src2xWebP = web_image(filePath).zoomCrop(width * 2, height * 2).webp() %}
+        {% set src3xWebP = web_image(filePath).zoomCrop(width * 3, height * 3).webp() %}
+        {% set src4xWebP = web_image(filePath).zoomCrop(width * 4, height * 4).webp() %}
+
         {% set src05x = web_image(filePath).zoomCrop(width * 0.5, height * 0.5) %}
         {% set src1x = web_image(filePath).zoomCrop(width, height) %}
         {% set src2x = web_image(filePath).zoomCrop(width * 2, height * 2) %}
@@ -41,13 +47,13 @@
             height="{{ height }}"
             title="{{ element.data.title }}"
             alt="{{ element.data.title }}"
-            src="{{ src1x.webp() }}"
+            src="{{ src1xWebP }}"
             srcset="
-                {{ src05x.webp() }} {{ width * 0.5 }}w,
-                {{ src1x.webp() }} {{ width }}w,
-                {{ src2x.webp() }} {{ width * 2 }}w,
-                {{ src3x.webp() }} {{ width * 3 }}w,
-                {{ src4x.webp() }} {{ width * 4 }}w
+                {{ src05xWebP }} {{ width * 0.5 }}w,
+                {{ src1xWebP }} {{ width }}w,
+                {{ src2xWebP }} {{ width * 2 }}w,
+                {{ src3xWebP }} {{ width * 3 }}w,
+                {{ src4xWebP }} {{ width * 4 }}w
             "
             layout="responsive"
         >
