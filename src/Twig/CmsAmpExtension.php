@@ -86,7 +86,9 @@ class CmsAmpExtension extends AbstractExtension
         $svgPath = $this->cms_amp_config['icon_path'].'/'.$icon.'.svg';
 
         if (file_exists($svgPath)) {
-            return file_get_contents($svgPath);
+            $svg = file_get_contents($svgPath);
+
+            return str_replace('<svg ', '<svg class="svg-inline--fa fa-w-16" style="width:1em;height:1em;vertical-align:-.125em;" ', $svg);
         }
 
         // Todo: Return fallback icon.
